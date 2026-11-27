@@ -10,7 +10,7 @@ It's a joke, but the workflow is real. Every ring, snooze and consequence is a d
 
 Built for Inngest's **[12 Days of Workflows build-a-thon](https://inngest.link/12-days-bailey)**.
 
-![Angry Alarm at snooze 3, drafting an apology email to the team](docs/screenshot.jpg)
+![Angry Alarm waiting at 5:59 for its 6:00 AM alarm](docs/screenshot.png)
 
 ## How it works
 
