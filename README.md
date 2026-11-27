@@ -88,14 +88,14 @@ bun run dev:all
 
 ### Local, but runs in Inngest Cloud
 
-To see local runs in the Inngest Cloud dashboard without deploying, use [Connect](https://inngest.link/12-days-bailey). Your machine connects out to Inngest Cloud, so you don't need a tunnel.
+To see local runs in the Inngest Cloud dashboard without deploying, use Inngest Connect. Your machine connects out to Inngest Cloud, so you don't need a tunnel.
 
 ```bash
 cp .env.cloud.example .env.cloud   # paste your event key + signing key
 bun run dev:cloud
 ```
 
-This runs `next dev` plus `inngest/worker.ts` in cloud mode. Press Space at http://localhost:3000 and the run appears at app.inngest.com.
+This runs `next dev` plus `inngest/worker.ts` in cloud mode. Press Space at http://localhost:3000 and the run appears in your Inngest Cloud dashboard.
 
 ## Env vars
 
