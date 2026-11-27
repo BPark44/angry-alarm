@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:inngest": "bunx inngest-cli@latest dev -u http://localhost:3000/api/inngest --no-discovery",
+    "dev:inngest": "inngest-cli dev -u http://localhost:3000/api/inngest --no-discovery",
     "dev:all": "concurrently -k -n next,inngest -c cyan,magenta \"bun run dev\" \"bun run dev:inngest\"",
     "build": "next build",
     "start": "next start",
@@ -25,6 +25,7 @@
     "concurrently": "^10.0.7",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "inngest-cli": "^1.53.0",
     "tailwindcss": "4.3.3",
     "typescript": "^5"
   },
@@ -34,6 +35,7 @@
     "unrs-resolver"
   ],
   "trustedDependencies": [
+    "inngest-cli",
     "sharp",
     "unrs-resolver"
   ]

@@ -76,12 +76,24 @@ export default function AlarmScreen() {
   });
 
   const view = useMemo(() => {
+    // Follow the most recently armed alarm; fall back to the latest one if we joined mid-run.
+    let armedId: string | undefined;
+    let latestId: string | undefined;
+    for (const m of messages.all) {
+      if (m.kind !== "data" || m.topic !== "alarm") continue;
+      const a = m.data as AlarmMessage;
+      latestId = a.alarmId;
+      if (a.status === "armed") armedId = a.alarmId;
+    }
+    const id = armedId ?? latestId;
+    if (!id || ignored.includes(id)) return null;
     let alarm: AlarmMessage | undefined;
     for (const m of messages.all) {
-      if (m.kind === "data" && m.topic === "alarm") alarm = m.data as AlarmMessage;
+      if (m.kind === "data" && m.topic === "alarm" && (m.data as AlarmMessage).alarmId === id) {
+        alarm = m.data as AlarmMessage;
+      }
     }
-    if (!alarm || ignored.includes(alarm.alarmId)) return null;
-    const id = alarm.alarmId;
+    if (!alarm) return null;
 
     let email: EmailMessage | undefined;
     const consequences: Partial<Record<ConsequenceMessage["name"], ConsequenceMessage>> = {};
@@ -233,7 +245,7 @@ export default function AlarmScreen() {
           ))}
         </div>
         <div className="msg">{msg}</div>
-        {showEmail && <EmailCard text={view!.email!.text} />}
+        {view?.email && <EmailCard text={view.email.text} hidden={!showEmail} />}
         {showFan && (
           <div className="card">
             <h3>step.sendEvent: fanning out</h3>
@@ -335,7 +347,8 @@ function logLines(a: AlarmMessage): string[] {
   }
 }
 
-function EmailCard({ text }: { text: string }) {
+// Stays mounted (just hidden) so the typing never restarts mid-run.
+function EmailCard({ text, hidden }: { text: string; hidden: boolean }) {
   const [typed, setTyped] = useState({ text: "", n: 0 });
   const n = typed.text === text ? typed.n : 0;
 
@@ -354,7 +367,7 @@ function EmailCard({ text }: { text: string }) {
   }, [text]);
 
   return (
-    <div className="card">
+    <div className={`card ${hidden ? "hide" : ""}`}>
       <h3>step.run: drafting apology to your team</h3>
       <pre>{text.slice(0, n)}</pre>
     </div>

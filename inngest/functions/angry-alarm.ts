@@ -8,6 +8,8 @@ export const angryAlarm = inngest.createFunction(
   {
     id: "angry-alarm",
     name: "Angry Alarm",
+    // One alarm at a time: a new start cancels whatever is still ringing.
+    singleton: { mode: "cancel" },
     triggers: [{ cron: "TZ=Australia/Brisbane 0 6 * * *" }, { event: "alarm/start" }],
   },
   async ({ event, step }) => {
@@ -58,7 +60,8 @@ export const angryAlarm = inngest.createFunction(
 
       const response = await step.waitForEvent(`wait-for-response-${level}`, {
         event: "alarm/action",
-        match: "data.alarmId",
+        // Not `match`: that compares to the trigger event, and alarmId is generated inside the run.
+        if: `async.data.alarmId == "${alarmId}"`,
         timeout: s.ringTimeout,
       });
 
