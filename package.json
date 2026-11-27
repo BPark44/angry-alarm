@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:cloud": "set -a && . ./.env.cloud && set +a && concurrently -k -n next,worker -c cyan,magenta \"next dev\" \"bun inngest/worker.ts\""
   },
   "dependencies": {
     "inngest": "^4.27.0",
