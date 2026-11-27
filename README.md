@@ -6,6 +6,8 @@ Snooze once and it's disappointed. Snooze three times and it emails your team to
 
 It's a joke, but the workflow is real. Every ring, snooze and consequence is a durable [Inngest](https://inngest.link/12-days-bailey) step, so you can watch the whole thing escalate in the Inngest run view.
 
+**Live demo: https://angry-alarm.vercel.app** (press Space, or tap on a phone)
+
 Built for Inngest's **[12 Days of Workflows build-a-thon](https://inngest.link/12-days-bailey)**.
 
 ![Angry Alarm at snooze 3, drafting an apology email to the team](docs/screenshot.jpg)
