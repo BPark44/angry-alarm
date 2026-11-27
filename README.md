@@ -116,8 +116,9 @@ See [`.env.example`](.env.example).
 
 1. Push to GitHub and import the repo in Vercel. Bun is detected from `bun.lock`.
 2. Install the [Inngest Vercel integration](https://vercel.com/integrations/inngest). It sets `INNGEST_EVENT_KEY` and `INNGEST_SIGNING_KEY` and syncs `https://<your-app>/api/inngest` on every deploy. You can also set the keys yourself and sync the URL in the Inngest dashboard.
-3. Optional: set `ALARM_MODE` and any integration env vars.
-4. Redeploy, open the live URL and press Space.
+3. Check that `INNGEST_EVENT_KEY` and `INNGEST_SIGNING_KEY` are enabled for **Production** in Vercel, not just Preview. Without the event key, pressing Space does nothing (press L to see the error).
+4. Optional: set `ALARM_MODE` and any integration env vars. Don't set real integration keys on a public deploy, because anyone can press Space.
+5. Redeploy, open the live URL and press Space.
 
 ## Known quirk
 
