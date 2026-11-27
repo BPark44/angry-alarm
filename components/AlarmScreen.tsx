@@ -154,10 +154,14 @@ export default function AlarmScreen() {
       snoozeDuration: settings.gap,
       firstRing: settings.ringTime,
       snoozeMinutes: settings.snoozeMin,
-    }).catch((err: unknown) => {
-      setArming(null);
-      setLocalLog((l) => [...l, `alarm/start failed: ${String(err)}`]);
-    });
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error(r.error);
+      })
+      .catch((err: unknown) => {
+        setArming(null);
+        setLocalLog((l) => [...l, `alarm/start failed: ${err instanceof Error ? err.message : String(err)}`]);
+      });
   }, [unlockAudio, phase, currentId, reset, settings]);
 
   const act = useCallback(
@@ -167,9 +171,14 @@ export default function AlarmScreen() {
       const key = `${view.alarm.alarmId}:${view.alarm.level}`;
       if (sentFor.current === key) return;
       sentFor.current = key;
-      sendAlarmAction(view.alarm.alarmId, action).catch(() => {
-        sentFor.current = null;
-      });
+      sendAlarmAction(view.alarm.alarmId, action)
+        .then((r) => {
+          if (!r.ok) throw new Error(r.error);
+        })
+        .catch((err: unknown) => {
+          sentFor.current = null;
+          setLocalLog((l) => [...l, `alarm/action failed: ${err instanceof Error ? err.message : String(err)}`]);
+        });
     },
     [unlockAudio, view, phase],
   );
