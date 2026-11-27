@@ -66,6 +66,15 @@ export default function AlarmScreen() {
       return next;
     });
 
+  // Keep every open tab in sync with the settings panel.
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) setSettings(loadSettings());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   const { messages, connectionStatus, reset: resetRealtime } = useRealtime({
     channel: alarmChannel,
     topics: ALARM_TOPICS,

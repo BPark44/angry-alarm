@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type WebkitWindow = Window & { webkitAudioContext?: typeof AudioContext };
 
 /** Web Audio beeps that get faster and harsher per level. */
 export function useAlarmSound(active: boolean, level: number, enabled: boolean) {
   const ctx = useRef<AudioContext | null>(null);
+  // State, not just the ref, so the beep loop restarts if audio unlocks mid-ring.
+  const [unlocked, setUnlocked] = useState(false);
 
   // Browsers only allow audio after a gesture, so call this from key/tap handlers.
   const unlock = useCallback(() => {
@@ -12,13 +14,25 @@ export function useAlarmSound(active: boolean, level: number, enabled: boolean) 
       const Ctor = window.AudioContext ?? (window as WebkitWindow).webkitAudioContext;
       if (Ctor) ctx.current = new Ctor();
     }
-    if (ctx.current?.state === "suspended") ctx.current.resume().catch(() => {});
+    const a = ctx.current;
+    if (!a) return;
+    if (a.state === "suspended") a.resume().then(() => setUnlocked(true)).catch(() => {});
+    else setUnlocked(true);
   }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", unlock);
+    document.addEventListener("pointerdown", unlock);
+    return () => {
+      document.removeEventListener("keydown", unlock);
+      document.removeEventListener("pointerdown", unlock);
+    };
+  }, [unlock]);
 
   useEffect(() => {
     if (!active || !enabled) return;
     const a = ctx.current;
-    if (!a) return;
+    if (!a || !unlocked) return;
 
     const tone = (f: number, d: number, type: OscillatorType, vol: number) => {
       const o = a.createOscillator();
@@ -47,7 +61,7 @@ export function useAlarmSound(active: boolean, level: number, enabled: boolean) 
       clearInterval(interval);
       timeouts.forEach(clearTimeout);
     };
-  }, [active, level, enabled]);
+  }, [active, level, enabled, unlocked]);
 
   return unlock;
 }
