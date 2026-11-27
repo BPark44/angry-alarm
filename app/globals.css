@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Ported from the angry-alarm prop: a phone lock screen that slowly loses its temper. */
+:root{color-scheme:dark;--bg:#07080a;--ink:#f3f5f7;--dim:#8a929c;--panel:#12151a}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-inter),system-ui,sans-serif;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+.alarm{--acc:#b8f5d0}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;transition:background .4s}
+#stage.ring{background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--acc) 22%,transparent),var(--bg) 70%)}
+.date{font:500 18px/1 var(--font-grotesk),sans-serif;color:var(--dim)}
+.clock{font:700 clamp(88px,22vw,220px)/.9 var(--font-grotesk),sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.sub{font-size:15px;color:var(--dim);min-height:1.5em}
+.msg{font:700 clamp(26px,5vw,48px)/1.1 var(--font-grotesk),sans-serif;color:var(--acc);max-width:16ch;text-wrap:balance;min-height:1.1em}
+.lvl{display:flex;gap:6px;height:8px}
+.lvl i{width:28px;border-radius:4px;background:#ffffff1a}
+.lvl i.on{background:var(--acc)}
+.btns{display:flex;gap:14px;margin-top:10px}
+.btns button{font:600 18px var(--font-inter),sans-serif;border:0;border-radius:999px;padding:16px 34px;min-height:56px;cursor:pointer;color:#07080a;background:var(--acc)}
+.btns button.ghost{background:#ffffff14;color:var(--ink)}
+.btns button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.hide{display:none!important}
+.shake{animation:shake var(--sp,.5s) infinite}
+@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(calc(var(--amp,2px)*-1),var(--amp,2px)) rotate(-.4deg)}75%{transform:translate(var(--amp,2px),calc(var(--amp,2px)*-1)) rotate(.4deg)}}
+@media(prefers-reduced-motion:reduce){.shake{animation:none}}
+.card{width:min(520px,100%);background:var(--panel);border:1px solid #ffffff14;border-radius:18px;padding:16px 18px;text-align:left;font-size:15px}
+.card h3{margin:0 0 8px;font:600 13px var(--font-inter),sans-serif;color:var(--dim)}
+.card pre{margin:0;white-space:pre-wrap;font:14px/1.5 var(--font-inter),sans-serif;color:var(--ink);min-height:4.5em}
+.fan{display:grid;gap:8px}
+.fan div{display:flex;justify-content:space-between;gap:12px;opacity:.35;transition:opacity .3s}
+.fan div.done{opacity:1}
+.fan b{font-weight:600}.fan span{color:var(--acc)}
+#log{position:fixed;left:16px;bottom:16px;font:12px/1.6 ui-monospace,Menlo,monospace;color:#7d8590;text-align:left;max-width:min(460px,calc(100vw - 32px));pointer-events:none}
+#log div::before{content:'› ';color:var(--acc)}
+#armed{position:fixed;right:14px;top:12px;width:6px;height:6px;border-radius:50%;background:#2a2f36}
+#armed.on{background:#3a4a40}
+#armed.err{background:#4a2a2a}
+#panel{position:fixed;right:16px;top:16px;width:min(320px,calc(100vw - 32px));background:var(--panel);border:1px solid #ffffff1f;border-radius:16px;padding:18px;text-align:left;font-size:14px;z-index:5}
+#panel h2{margin:0 0 12px;font:700 18px var(--font-grotesk),sans-serif}
+#panel label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0}
+#panel input[type=number],#panel input[type=text]{width:90px;font:16px var(--font-inter),sans-serif;padding:6px 8px;border-radius:8px;border:1px solid #ffffff2a;background:#0b0d10;color:var(--ink)}
+#panel input[type=checkbox]{width:22px;height:22px}
+#panel kbd{font:12px ui-monospace,monospace;background:#ffffff14;border-radius:5px;padding:1px 6px}
+#panel .keys{color:var(--dim);line-height:1.9;margin-top:12px;border-top:1px solid #ffffff14;padding-top:10px}
