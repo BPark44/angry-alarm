@@ -7,27 +7,27 @@ html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-inter),system-ui,sans-serif;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent}
 
 .alarm{--acc:#b8f5d0}
-#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;transition:background .4s}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:23px;padding:24px;text-align:center;transition:background .4s}
 #stage.ring{background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--acc) 22%,transparent),var(--bg) 70%)}
-.date{font:500 18px/1 var(--font-grotesk),sans-serif;color:var(--dim)}
-.clock{font:700 clamp(88px,22vw,220px)/.9 var(--font-grotesk),sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.sub{font-size:15px;color:var(--dim);min-height:1.5em}
-.msg{font:700 clamp(26px,5vw,48px)/1.1 var(--font-grotesk),sans-serif;color:var(--acc);max-width:16ch;text-wrap:balance;min-height:1.1em}
-.lvl{display:flex;gap:6px;height:8px}
-.lvl i{width:28px;border-radius:4px;background:#ffffff1a}
+.date{font:500 23px/1 var(--font-grotesk),sans-serif;color:var(--dim)}
+.clock{font:700 clamp(114px,min(28.6vw,26vh),286px)/.9 var(--font-grotesk),sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.sub{font-size:20px;color:var(--dim);min-height:1.5em}
+.msg{font:700 clamp(34px,min(6.5vw,6vh),62px)/1.1 var(--font-grotesk),sans-serif;color:var(--acc);max-width:16ch;text-wrap:balance;min-height:1.1em}
+.lvl{display:flex;gap:8px;height:10px}
+.lvl i{width:36px;border-radius:5px;background:#ffffff1a}
 .lvl i.on{background:var(--acc)}
-.btns{display:flex;gap:14px;margin-top:10px}
-.btns button{font:600 18px var(--font-inter),sans-serif;border:0;border-radius:999px;padding:16px 34px;min-height:56px;cursor:pointer;color:#07080a;background:var(--acc)}
+.btns{display:flex;gap:18px;margin-top:13px}
+.btns button{font:600 23px var(--font-inter),sans-serif;border:0;border-radius:999px;padding:21px 44px;min-height:73px;cursor:pointer;color:#07080a;background:var(--acc)}
 .btns button.ghost{background:#ffffff14;color:var(--ink)}
 .btns button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .hide{display:none!important}
 .shake{animation:shake var(--sp,.5s) infinite}
 @keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(calc(var(--amp,2px)*-1),var(--amp,2px)) rotate(-.4deg)}75%{transform:translate(var(--amp,2px),calc(var(--amp,2px)*-1)) rotate(.4deg)}}
 @media(prefers-reduced-motion:reduce){.shake{animation:none}}
-.card{width:min(520px,100%);background:var(--panel);border:1px solid #ffffff14;border-radius:18px;padding:16px 18px;text-align:left;font-size:15px}
-.card h3{margin:0 0 8px;font:600 13px var(--font-inter),sans-serif;color:var(--dim)}
-.card pre{margin:0;white-space:pre-wrap;font:14px/1.5 var(--font-inter),sans-serif;color:var(--ink);min-height:4.5em}
-.fan{display:grid;gap:8px}
+.card{width:min(676px,100%);background:var(--panel);border:1px solid #ffffff14;border-radius:23px;padding:21px 23px;text-align:left;font-size:20px}
+.card h3{margin:0 0 10px;font:600 17px var(--font-inter),sans-serif;color:var(--dim)}
+.card pre{margin:0;white-space:pre-wrap;font:18px/1.5 var(--font-inter),sans-serif;color:var(--ink);min-height:4.5em}
+.fan{display:grid;gap:10px}
 .fan div{display:flex;justify-content:space-between;gap:12px;opacity:.35;transition:opacity .3s}
 .fan div.done{opacity:1}
 .fan b{font-weight:600}.fan span{color:var(--acc)}
